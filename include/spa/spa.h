@@ -99,9 +99,9 @@ inline bool operator>=(const version_t& lhs, const version_t& rhs) {
 }
 
 //! current version of this spa API
-constexpr const version_t api_version(0, 0, 0);
+constexpr const version_t api_version(0, 0, 1);
 //! least spa API version that is compatible
-constexpr const version_t least_api_version(0, 0, 0);
+constexpr const version_t least_api_version(0, 0, 1);
 
 namespace detail {
 
