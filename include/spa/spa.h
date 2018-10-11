@@ -558,7 +558,7 @@ public:
 
 //! define an accept function for a (non-template) class
 #define ACCEPT(classname, visitor_type)\
-	inline void classname::accept(class spa::visitor& v) {\
+	void classname::accept(class spa::visitor& v) {\
 		dynamic_cast<visitor_type&>(v).visit(*this);\
 	}
 
