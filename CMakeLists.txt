@@ -3,17 +3,11 @@ cmake_minimum_required(VERSION 2.8)
 project(spa)
 set(DESCRIPTION "OSC plugin api")
 
+OPTION(BUILD_EXAMPLES	"Build examples" ON)
+
 SET(VERSION_MAJOR "0")
 SET(VERSION_MINOR "0")
 SET(VERSION_PATCH "1")
-
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-	# enable these flags if you get tons of errors from boost...
-	# set(WARN_EXC "-Wno-unused-local-typedefs -Wno-maybe-uninitialized")
-	set(FLTO_FLAGS "-flto")
-else()
-	set(FLTO_FLAGS "")
-endif()
 
 # processing
 include(cmake/process_project.txt)
@@ -33,7 +27,9 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/spa.pc"
 
 
 # examples
-add_subdirectory(examples)
+if(BUILD_EXAMPLES)
+	add_subdirectory(examples)
+endif()
 
 print_summary_base()
 
