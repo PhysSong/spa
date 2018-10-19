@@ -5,7 +5,11 @@ set(spa_hdr ../include/spa/spa_fwd.h ../include/spa/spa.h
         ../include/spa/audio_fwd.h ../include/spa/audio.h)
 include_directories(../include/rtosc/include)
 include_directories(../include/ringbuffer/include)
-add_definitions(-fPIC -Wall -Wextra -Werror)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Werror")
+	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+	set(CMAKE_CXX_FLAGS_RELEASE "-O3 ${FLTO_FLAGS}")
+endif()
 add_library(spa STATIC
         ${spa_src} ${spa_hdr}
         ${rtosc_lib_src} ${rtosc_lib_hdr}
