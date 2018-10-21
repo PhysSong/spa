@@ -49,8 +49,7 @@ MESSAGE(STATUS "Checking for libraries...")
 
 # src?, probably above?
 
-# TODO?!?
-find_package(PkgConfig REQUIRED)
+find_package(PkgConfig)
 
 # own submodules
 
@@ -106,8 +105,9 @@ macro(depend_submodules submodules)
 		SET(CUR_LIBRARIES "")
 		SET(CUR_LIBRARY_DIRS "")
 
-		pkg_search_module(CUR ${submodule})
-		# MESSAGE(${PC_MODULE_FOUND})
+		if(PKG_CONFIG_FOUND)
+			pkg_search_module(PC_${fname} ${submodule})
+		endif()
 		if(PC_${fname}_FOUND STREQUAL "1")
 		else()
 			add_dependencies(${fname} ${fname}_fetch)
