@@ -6,6 +6,10 @@
 #include <ctype.h>
 #include <assert.h>
 
+#ifdef _MSC_VER
+#include <malloc.h>
+#endif
+
 #include <rtosc/pseudo-rtosc.h>
 #include <rtosc/pseudo-arg-val-math.h>
 
@@ -379,7 +383,11 @@ size_t rtosc_vmessage(char   *buffer,
     if(!nargs)
         return rtosc_amessage(buffer,len,address,arguments,NULL);
 
+#ifdef _MSC_VER
+    rtosc_arg_t *args = _alloca(nargs * sizeof(rtosc_arg_t));
+#else
     rtosc_arg_t args[nargs];
+#endif
     rtosc_va_list_t ap2;
     va_copy(ap2.a, ap);
     rtosc_v2args(args, nargs, arguments, &ap2);
@@ -405,8 +413,13 @@ size_t rtosc_avmessage(char                  *buffer,
             rtosc_arg_val_itr_next(&itr2);
     }
 
+#ifdef _MSC_VER
+    rtosc_arg_t *vals = _alloca(val_max * sizeof(rtosc_arg_t));
+    char *argstr = _alloca(val_max + 1);
+#else
     rtosc_arg_t vals[val_max];
     char argstr[val_max+1];
+#endif
 
     int i;
     for(i = 0; i < val_max; ++i)
